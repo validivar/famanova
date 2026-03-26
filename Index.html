@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famanova — All you need to know today, in one scroll.</title>
+  <meta name="description" content="Top global stories, live markets, weather & daily insights — curated by AI every morning. Free daily news brief." />
+  <meta name="keywords" content="daily news brief, AI news summary, morning news, market snapshot, famanova" />
+  <meta property="og:title" content="Famanova — Your Morning Intelligence Brief" />
+  <meta property="og:description" content="All you need to know today — in one scroll. Top news, markets, weather & insights." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://famanova.com" />
+  <link rel="canonical" href="https://famanova.com" />
+
+  <!-- ═══════════════════════════════════════════════
+       FONTS
+  ════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Google Translate (powers language selector) -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        autoDisplay: false,
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <!-- Hide the default Google Translate banner/toolbar -->
+  <style>
+    .goog-te-banner-frame, .goog-te-balloon-frame { display: none !important; }
+    body { top: 0 !important; }
+    .goog-tooltip, .goog-tooltip:hover { display: none !important; }
+    .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    #google_translate_element { display: none; }
+  </style>
+
+  <style>
+    /* ─── DESIGN TOKENS ─── */
+    :root {
+      --ink:        #0d0d0d;
+      --paper:      #f5f0e8;
+      --cream:      #ede8db;
+      --muted:      #8a8070;
+      --rule:       #c8bfad;
+      --gold:       #b8860b;
+      --gold-light: #d4a017;
+      --red:        #c0392b;
+      --green:      #1a6b3c;
+      --blue:       #1a3a5c;
+      --white:      #ffffff;
+      --f-serif:    'Playfair Display', Georgia, serif;
+      --f-body:     'Crimson Pro', Georgia, serif;
+      --f-mono:     'DM Mono', 'Courier New', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--f-body);
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── LOADER ─── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--ink);
+      z-index: 9999;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px;
+      transition: opacity .7s, visibility .7s;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    #loader .l-logo {
+      font-family: var(--f-serif);
+      font-size: 2.8rem; font-weight: 900;
+      color: var(--paper); letter-spacing: -.02em;
+    }
+    #loader .l-logo span { color: var(--gold); }
+    #loader .l-bar { width: 200px; height: 2px; background: #2a2820; overflow: hidden; }
+    #loader .l-prog {
+      height: 100%; background: var(--gold); width: 0;
+      animation: loadprog 1.2s ease-out forwards;
+    }
+    #loader .l-msg {
+      font-family: var(--f-mono); font-size: 10px;
+      letter-spacing: .14em; text-transform: uppercase; color: #5a5040;
+    }
+    @keyframes loadprog { 0%{width:0} 60%{width:70%} 100%{width:100%} }
+
+    /* ─── TICKER ─── */
+    .ticker-bar {
+      background: var(--ink); color: var(--paper);
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: .08em; padding: 7px 0;
+      overflow: hidden; position: relative;
+    }
+    .ticker-bar::before, .ticker-bar::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 70px; z-index: 2;
+    }
+    .ticker-bar::before { left: 0; background: linear-gradient(to right, var(--ink), transparent); }
+    .ticker-bar::after  { right: 0; background: linear-gradient(to left, var(--ink), transparent); }
+    .ticker-label {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: var(--gold); color: var(--ink);
+      padding: 0 14px; display: flex; align-items: center;
+      font-weight: 500; letter-spacing: .12em; font-size: 10px; z-index: 3;
+    }
+    .ticker-track {
+      display: flex; white-space: nowrap;
+      animation: ticker-scroll 40s linear infinite; padding-left: 130px;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item { display: inline-flex; align-items: center; gap: 6px; margin-right: 36px; }
+    .ticker-item .t-sym { color: var(--gold-light); font-weight: 500; }
+    .ticker-item .t-val { color: #f0ead8; }
+    .ticker-item .t-up  { color: #4ade80; }
+    .ticker-item .t-dn  { color: #f87171; }
+    .ticker-sep         { color: #3a3530; margin: 0 4px; }
+    @keyframes ticker-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ─── MASTHEAD ─── */
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 26px 5vw 18px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center; gap: 16px;
+    }
+    .masthead-meta {
+      font-family: var(--f-mono); font-size: 10px;
+      letter-spacing: .08em; color: var(--muted); text-transform: uppercase;
+    }
+    .masthead-meta div { margin-bottom: 3px; }
+    .masthead-logo { text-align: center; }
+    .masthead-logo h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 900; letter-spacing: -.02em;
+      color: var(--ink); line-height: 1;
+    }
+    .masthead-logo h1 .brand-dot { color: var(--gold); }
+    .masthead-logo .tagline {
+      font-family: var(--f-body); font-style: italic;
+      font-size: 13px; color: var(--muted); margin-top: 5px;
+    }
+    .masthead-right {
+      text-align: right; display: flex;
+      flex-direction: column; align-items: flex-end; gap: 8px;
+    }
+    .btn-primary {
+      background: var(--ink); color: var(--paper); border: none;
+      font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
+      text-transform: uppercase; padding: 10px 20px; cursor: pointer;
+      text-decoration: none; display: inline-block;
+      transition: background .2s, color .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--gold); color: var(--ink); transform: translateY(-2px); }
+    .edition-label {
+      font-family: var(--f-mono); font-size: 9px;
+      color: var(--muted); letter-spacing: .12em; text-transform: uppercase;
+    }
+    hr.rule { border: none; border-top: 1px solid var(--rule); margin: 0; }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-family: var(--f-mono); font-size: 9px;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); border-bottom: 2px solid var(--ink);
+      padding-bottom: 6px; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: var(--red); font-size: 9px;
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--red); animation: blink 1.6s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.7)} }
+
+    /* ─── TOP STORIES ─── */
+    .top-stories { padding: 34px 5vw; border-bottom: 1px solid var(--rule); }
+    .stories-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 0; }
+    .story-lead {
+      padding-right: 36px; border-right: 1px solid var(--rule);
+      opacity: 0; transform: translateY(18px);
+      animation: fadeUp .6s .1s forwards;
+    }
+    .story-lead .s-cat {
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+    }
+    .story-lead h2 {
+      font-family: var(--f-serif);
+      font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+      font-weight: 700; line-height: 1.2; margin-bottom: 14px; color: var(--ink);
+    }
+    .story-lead .s-summary {
+      font-size: 16px; color: #3a3530; line-height: 1.65; max-width: 520px;
+    }
+    .story-lead .s-byline {
+      margin-top: 12px; font-family: var(--f-mono);
+      font-size: 10px; letter-spacing: .07em; color: var(--muted);
+    }
+    .story-lead .s-link {
+      display: inline-block; margin-top: 14px;
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink); text-decoration: none;
+      border-bottom: 1.5px solid var(--gold); padding-bottom: 2px;
+      transition: color .2s;
+    }
+    .story-lead .s-link:hover { color: var(--gold); }
+    .stories-side { display: flex; flex-direction: column; }
+    .story-card {
+      padding: 0 0 18px 30px; margin-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+      opacity: 0; transform: translateY(14px);
+    }
+    .story-card:last-child { border-bottom: none; margin-bottom: 0; }
+    .story-card .s-num {
+      font-family: var(--f-serif); font-size: 1.8rem;
+      font-weight: 900; color: var(--cream); line-height: 1; margin-bottom: 4px;
+    }
+    .story-card .s-cat {
+      font-family: var(--f-mono); font-size: 9px;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 5px;
+    }
+    .story-card h3 {
+      font-family: var(--f-serif); font-size: 1.05rem;
+      font-weight: 700; line-height: 1.3; margin-bottom: 6px;
+    }
+    .story-card h3 a { color: var(--ink); text-decoration: none; }
+    .story-card h3 a:hover { color: var(--gold); }
+    .story-card p { font-size: 13.5px; color: #5a5045; line-height: 1.55; }
+    .story-card:nth-child(1){animation:fadeUp .55s .25s forwards}
+    .story-card:nth-child(2){animation:fadeUp .55s .4s forwards}
+    .story-card:nth-child(3){animation:fadeUp .55s .55s forwards}
+    .story-card:nth-child(4){animation:fadeUp .55s .7s forwards}
+    @keyframes fadeUp { to{opacity:1;transform:translateY(0)} }
+
+    /* ─── LOADING SKELETON ─── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--cream) 25%, var(--rule) 50%, var(--cream) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease-in-out infinite;
+      border-radius: 2px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skeleton-h { height: 16px; margin-bottom: 8px; }
+    .skeleton-p { height: 12px; margin-bottom: 6px; }
+    .skeleton-lg { height: 28px; margin-bottom: 12px; }
+
+    /* ─── AFFILIATE BANNER — NordVPN ─── */
+    .affiliate-strip {
+      background: #003366; padding: 16px 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; border-bottom: 2px solid #002244;
+    }
+    .affiliate-strip .aff-content { display: flex; align-items: center; gap: 14px; }
+    .affiliate-strip .aff-logo {
+      font-family: var(--f-serif); font-size: 1.4rem;
+      font-weight: 900; color: #fff; letter-spacing: -.01em;
+    }
+    .affiliate-strip .aff-logo span { color: #4fc3f7; }
+    .affiliate-strip .aff-text {
+      font-family: var(--f-body); font-size: 15px; color: #cce3f6;
+    }
+    .affiliate-strip .aff-tag {
+      font-family: var(--f-mono); font-size: 8px;
+      letter-spacing: .1em; text-transform: uppercase; color: #5a8ab0;
+    }
+    .btn-affiliate {
+      background: #4fc3f7; color: #001a33; border: none;
+      font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
+      text-transform: uppercase; padding: 11px 22px; cursor: pointer;
+      text-decoration: none; display: inline-block; font-weight: 500;
+      transition: background .2s, transform .15s; white-space: nowrap;
+    }
+    .btn-affiliate:hover { background: #81d4fa; transform: translateY(-1px); }
+
+    /* ─── AFFILIATE STRIP — NordPass ─── */
+    .nordpass-strip {
+      background: #1a0d3d; padding: 14px 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .nordpass-strip .np-left { display: flex; align-items: center; gap: 12px; }
+    .nordpass-strip .np-icon { font-size: 1.5rem; }
+    .nordpass-strip .np-title {
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: .1em; text-transform: uppercase; color: #c084fc; margin-bottom: 2px;
+    }
+    .nordpass-strip .np-desc { font-family: var(--f-body); font-size: 14px; color: #d8b4fe; }
+    .btn-nordpass {
+      background: #7c3aed; color: #fff; border: none;
+      font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
+      text-transform: uppercase; padding: 10px 20px;
+      text-decoration: none; display: inline-block; white-space: nowrap;
+      transition: background .2s; cursor: pointer;
+    }
+    .btn-nordpass:hover { background: #6d28d9; }
+
+    /* ─── MARKET PULSE ─── */
+    .market-section {
+      background: var(--ink); color: var(--paper); padding: 32px 5vw;
+    }
+    .market-section .section-label { color: #5a5040; border-color: #3a3530; }
+    .markets-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px; background: #1a1a14;
+    }
+    .market-card {
+      background: var(--ink); padding: 18px 20px;
+      transition: background .2s; cursor: default;
+      opacity: 0; animation: fadeUp .5s forwards;
+    }
+    .market-card:hover { background: #181710; }
+    .market-card:nth-child(1){animation-delay:.1s}
+    .market-card:nth-child(2){animation-delay:.2s}
+    .market-card:nth-child(3){animation-delay:.3s}
+    .market-card:nth-child(4){animation-delay:.4s}
+    .market-card:nth-child(5){animation-delay:.5s}
+    .market-card:nth-child(6){animation-delay:.6s}
+    .m-sym { font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;color:var(--gold-light);text-transform:uppercase;margin-bottom:4px; }
+    .m-name { font-family:var(--f-body);font-size:11px;color:#5a5040;margin-bottom:8px;font-style:italic; }
+    .m-price { font-family:var(--f-mono);font-size:1.25rem;font-weight:500;color:#f0ead8;letter-spacing:-.01em; }
+    .m-change { font-family:var(--f-mono);font-size:11px;margin-top:3px; }
+    .m-change.up{color:#4ade80} .m-change.dn{color:#f87171} .m-change.flat{color:#5a5040}
+    .sparkline { margin-top: 10px; height: 32px; width: 100%; }
+
+    /* ─── MARKET ETORO BANNER ─── */
+    .etoro-banner {
+      margin-top: 24px;
+      background: #0f1a24;
+      border: 1px solid #1e3a4a;
+      border-left: 3px solid var(--gold);
+      padding: 16px 20px;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .etoro-banner .eb-left {}
+    .etoro-banner .eb-tag {
+      font-family: var(--f-mono); font-size: 8px;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+    }
+    .etoro-banner .eb-title {
+      font-family: var(--f-serif); font-size: 1rem;
+      color: #f0ead8; font-weight: 700;
+    }
+    .etoro-banner .eb-sub { font-family: var(--f-body); font-size: 13px; color: #7a7060; margin-top: 2px; }
+    .btn-etoro {
+      background: var(--gold); color: var(--ink); border: none;
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+      text-transform: uppercase; padding: 9px 18px; cursor: pointer;
+      text-decoration: none; display: inline-block; white-space: nowrap;
+      transition: background .2s; font-weight: 500;
+    }
+    .btn-etoro:hover { background: var(--gold-light); }
+
+    /* ─── TWO-COL: WEATHER + INSIGHT ─── */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; border-bottom: 1px solid var(--rule);
+    }
+
+    /* ─── WEATHER ─── */
+    .weather-section {
+      padding: 30px 34px 30px 5vw; border-right: 1px solid var(--rule);
+    }
+    .w-city {
+      font-family: var(--f-mono); font-size: 10px;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 4px;
+    }
+    #w-city-name {
+      font-family: var(--f-serif); font-size: 1.05rem; font-weight: 700; color: var(--ink);
+    }
+    .weather-main { display: flex; align-items: flex-start; gap: 14px; margin: 18px 0 14px; }
+    .w-icon { font-size: 3.4rem; line-height: 1; }
+    .w-temp { font-family: var(--f-serif); font-size: 3.2rem; font-weight: 900; line-height: 1; }
+    .w-temp sup { font-size: 1rem; font-weight: 400; }
+    .w-desc { font-family: var(--f-body); font-style: italic; color: var(--muted); font-size: 15px; margin-top: 2px; }
+    .weather-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+    .wm-item { background: var(--cream); padding: 9px 12px; }
+    .wm-label { font-family: var(--f-mono); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+    .wm-val { font-family: var(--f-mono); font-size: 14px; color: var(--ink); font-weight: 500; }
+    .weather-forecast { display: flex; gap: 6px; margin-top: 14px; }
+    .fc-day { flex: 1; text-align: center; background: var(--cream); padding: 8px 4px; }
+    .fd-day { font-family: var(--f-mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+    .fd-icon { font-size: 1.2rem; }
+    .fd-hi { font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--ink); }
+    .fd-lo { font-family: var(--f-mono); font-size: 10px; color: var(--muted); }
+
+    /* ─── INSIGHT ─── */
+    .insight-section { padding: 30px 5vw 30px 34px; }
+    .insight-box {
+      background: var(--ink); color: var(--paper);
+      padding: 28px 26px; position: relative; overflow: hidden;
+      height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .insight-box::before {
+      content: '\201C'; font-family: var(--f-serif); font-size: 10rem;
+      color: rgba(184,134,11,.1); position: absolute; top: -20px; left: 8px;
+      line-height: 1; pointer-events: none;
+    }
+    .i-label {
+      font-family: var(--f-mono); font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold-light); margin-bottom: 18px; position: relative; z-index: 1;
+    }
+    .insight-box blockquote {
+      font-family: var(--f-serif); font-size: clamp(1.05rem, 2vw, 1.4rem);
+      font-style: italic; font-weight: 700; line-height: 1.45;
+      color: #f0ead8; position: relative; z-index: 1; flex: 1;
+    }
+    .i-author {
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: .06em; color: var(--gold-light);
+      margin-top: 18px; position: relative; z-index: 1;
+    }
+    .i-author::before { content: '— '; }
+    .ai-toggle { margin-top: 16px; position: relative; z-index: 1; }
+    .ai-toggle button {
+      background: transparent; border: 1px solid #2a2820; color: #6a6050;
+      font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em;
+      text-transform: uppercase; padding: 7px 12px; cursor: pointer; transition: all .2s;
+    }
+    .ai-toggle button:hover { border-color: var(--gold); color: var(--gold-light); }
+    .ai-fact {
+      margin-top: 12px; font-family: var(--f-body); font-size: 13px;
+      color: #a09080; line-height: 1.6; display: none;
+    }
+    .ai-fact.visible { display: block; }
+
+    /* ─── MORNING BREW REFERRAL ─── */
+    .morning-brew-strip {
+      background: #fef3c7; border-top: 2px solid #f59e0b; border-bottom: 2px solid #f59e0b;
+      padding: 14px 5vw;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .mb-text { font-family: var(--f-body); font-size: 15px; color: #78350f; }
+    .mb-text strong { font-weight: 600; }
+    .btn-mb {
+      background: #d97706; color: #fff;
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+      text-transform: uppercase; padding: 9px 18px;
+      text-decoration: none; display: inline-block; white-space: nowrap;
+      transition: background .2s;
+    }
+    .btn-mb:hover { background: #b45309; }
+
+    /* ─── NEWSLETTER CTA ─── */
+    .newsletter-section {
+      background: var(--gold); padding: 48px 5vw;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .newsletter-section::before {
+      content: 'FAMANOVA';
+      font-family: var(--f-serif); font-size: 13vw; font-weight: 900;
+      color: rgba(0,0,0,.06); position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%); white-space: nowrap;
+      pointer-events: none; letter-spacing: .04em;
+    }
+    .newsletter-section h2 {
+      font-family: var(--f-serif); font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+      font-weight: 900; color: var(--ink); margin-bottom: 8px; position: relative;
+    }
+    .newsletter-section p {
+      font-family: var(--f-body); font-size: 17px; color: rgba(13,13,13,.75);
+      margin-bottom: 26px; font-style: italic; position: relative;
+    }
+    .nl-form {
+      display: flex; gap: 0; max-width: 460px; margin: 0 auto; position: relative;
+    }
+    .nl-form input {
+      flex: 1; border: 2px solid var(--ink); background: var(--white);
+      padding: 13px 16px; font-family: var(--f-body); font-size: 16px;
+      color: var(--ink); outline: none; transition: border-color .2s;
+    }
+    .nl-form input::placeholder { color: #a09080; font-style: italic; }
+    .nl-form input:focus { border-color: var(--blue); }
+    .nl-form button {
+      background: var(--ink); color: var(--paper); border: 2px solid var(--ink);
+      padding: 13px 22px; font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+      transition: background .2s; white-space: nowrap;
+    }
+    .nl-form button:hover { background: var(--blue); border-color: var(--blue); }
+    .nl-note { font-family: var(--f-mono); font-size: 9px; color: rgba(13,13,13,.5); margin-top: 12px; letter-spacing: .06em; position: relative; }
+    .nl-success {
+      display: none; font-family: var(--f-serif); font-size: 1.15rem;
+      font-style: italic; color: var(--ink); padding: 14px 22px;
+      background: rgba(255,255,255,.35); border: 1px solid rgba(13,13,13,.2);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #1c1a14;
+      border-top: 3px solid var(--gold);
+      padding: 0 5vw;
+    }
+    .footer-main {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap;
+      gap: 14px; padding: 22px 0 16px;
+      border-bottom: 1px solid #2e2b22;
+    }
+    .f-logo {
+      font-family: var(--f-serif); font-size: 1.1rem;
+      font-weight: 900; color: #f0ead8;
+    }
+    .f-logo span { color: var(--gold); }
+    .f-links { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+    .f-links a {
+      font-family: var(--f-body); font-size: 13px;
+      color: #b0a898; text-decoration: none;
+      transition: color .2s; cursor: pointer;
+      letter-spacing: .02em;
+    }
+    .f-links a:hover { color: var(--gold-light); }
+    .f-links .f-sep { color: #3a3530; font-size: 11px; }
+    .footer-disclosure {
+      padding: 14px 0 10px;
+      font-family: var(--f-body); font-size: 13px;
+      color: #8a8070; line-height: 1.8;
+      text-align: center; border-bottom: 1px solid #2e2b22;
+    }
+    .footer-disclosure strong {
+      display: block; font-family: var(--f-mono);
+      font-size: 10px; letter-spacing: .12em;
+      text-transform: uppercase; color: #c8bfad;
+      margin-bottom: 6px;
+    }
+    .footer-disclosure a {
+      color: #b0a898; text-decoration: underline;
+      text-underline-offset: 3px; transition: color .2s; cursor: pointer;
+    }
+    .footer-disclosure a:hover { color: var(--gold-light); }
+    .f-copy {
+      font-family: var(--f-mono); font-size: 10px;
+      letter-spacing: .06em; color: #6a6050;
+      padding: 12px 0; text-align: center;
+    }
+
+    /* ─── LANGUAGE SELECTOR ─── */
+    .lang-bar {
+      background: #141210; padding: 8px 5vw;
+      display: flex; align-items: center;
+      justify-content: flex-end; gap: 10px;
+      border-bottom: 1px solid #2e2b22;
+    }
+    .lang-label {
+      font-family: var(--f-mono); font-size: 9px;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: #5a5040;
+    }
+    .lang-select {
+      background: #1c1a14; color: #b0a898;
+      border: 1px solid #3a3530;
+      font-family: var(--f-mono); font-size: 11px;
+      padding: 5px 10px; cursor: pointer;
+      outline: none; transition: border-color .2s;
+      max-width: 200px;
+    }
+    .lang-select:hover, .lang-select:focus { border-color: var(--gold); color: #f0ead8; }
+    .lang-select option { background: #1c1a14; color: #b0a898; }
+
+    /* ─── MODALS ─── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(13,13,13,.65); z-index: 10000;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--paper); max-width: 620px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+      border-top: 4px solid var(--gold);
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+      position: relative; animation: modalIn .25s ease-out;
+    }
+    @keyframes modalIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+    .modal-header {
+      padding: 24px 28px 16px;
+      border-bottom: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .modal-header h2 {
+      font-family: var(--f-serif); font-size: 1.5rem;
+      font-weight: 900; color: var(--ink);
+    }
+    .modal-header .modal-tag {
+      font-family: var(--f-mono); font-size: 9px;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 4px;
+    }
+    .modal-close {
+      background: none; border: none; font-size: 1.4rem;
+      cursor: pointer; color: var(--muted); line-height: 1;
+      padding: 0 0 0 16px; transition: color .2s; flex-shrink: 0;
+    }
+    .modal-close:hover { color: var(--ink); }
+    .modal-body {
+      padding: 24px 28px 28px;
+      font-family: var(--f-body); font-size: 16px;
+      color: #3a3530; line-height: 1.75;
+    }
+    .modal-body h3 {
+      font-family: var(--f-serif); font-size: 1.1rem;
+      font-weight: 700; color: var(--ink);
+      margin: 20px 0 8px; border-bottom: 1px solid var(--rule);
+      padding-bottom: 6px;
+    }
+    .modal-body h3:first-child { margin-top: 0; }
+    .modal-body p { margin-bottom: 12px; }
+    .modal-body ul { padding-left: 20px; margin-bottom: 12px; }
+    .modal-body ul li { margin-bottom: 6px; }
+    .modal-body a { color: var(--gold); }
+    .modal-body .contact-box {
+      background: var(--cream); padding: 16px 18px;
+      margin-top: 16px; border-left: 3px solid var(--gold);
+    }
+    .modal-body .contact-box p { margin: 0; font-family: var(--f-mono); font-size: 13px; }
+    .modal-body .rate-card {
+      border: 1px solid var(--rule); margin-top: 12px; overflow: hidden;
+    }
+    .modal-body .rate-card table { width: 100%; border-collapse: collapse; }
+    .modal-body .rate-card th {
+      background: var(--ink); color: var(--paper);
+      font-family: var(--f-mono); font-size: 10px;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 10px 14px; text-align: left;
+    }
+    .modal-body .rate-card td {
+      font-family: var(--f-mono); font-size: 13px;
+      padding: 10px 14px; border-bottom: 1px solid var(--rule);
+      color: var(--ink);
+    }
+    .modal-body .rate-card tr:last-child td { border-bottom: none; }
+    .modal-body .rate-card td:last-child { color: var(--gold); font-weight: 500; }
+
+    /* ─── STATUS BADGE ─── */
+    #api-status {
+      font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); padding: 4px 10px;
+      background: var(--cream); border: 1px solid var(--rule);
+      display: inline-block;
+    }
+    #api-status.live { color: var(--green); border-color: var(--green); background: #f0fdf4; }
+    #api-status.error { color: var(--red); border-color: var(--red); }
+
+    /* ─── HOSTINGER AFFILIATE BANNER ─── */
+    .hostinger-strip {
+      background: linear-gradient(135deg, #673de6 0%, #4a1fa8 100%);
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .hostinger-strip::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hostinger-inner {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
+      padding: 20px 5vw;
+      position: relative; z-index: 1;
+    }
+    .hostinger-left { display: flex; align-items: center; gap: 16px; }
+    .hostinger-icon {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .hostinger-tag {
+      font-family: var(--f-mono); font-size: 8px;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(255,255,255,.6); margin-bottom: 3px;
+    }
+    .hostinger-title {
+      font-family: var(--f-serif); font-size: 1.05rem;
+      font-weight: 700; color: #fff; line-height: 1.2;
+    }
+    .hostinger-sub {
+      font-family: var(--f-body); font-size: 13px;
+      color: rgba(255,255,255,.75); margin-top: 2px;
+      font-style: italic;
+    }
+    .hostinger-badge {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 4px 10px;
+      font-family: var(--f-mono); font-size: 9px;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.8); margin-top: 4px;
+      display: inline-block;
+    }
+    .btn-hostinger {
+      background: #fff; color: #4a1fa8;
+      border: none; font-family: var(--f-mono);
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      padding: 12px 24px; cursor: pointer; font-weight: 600;
+      text-decoration: none; display: inline-block; white-space: nowrap;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 14px rgba(0,0,0,.2);
+    }
+    .btn-hostinger:hover {
+      background: #f0e6ff; transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:var(--cream)}
+    ::-webkit-scrollbar-thumb{background:var(--rule)} ::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:860px){
+      .masthead{grid-template-columns:1fr;text-align:center;gap:10px}
+      .masthead-right{align-items:center}
+      .stories-grid{grid-template-columns:1fr}
+      .story-lead{grid-row:auto;border-right:none;padding-right:0;border-bottom:1px solid var(--rule);padding-bottom:22px;margin-bottom:22px}
+      .story-card{padding-left:0}
+      .two-col{grid-template-columns:1fr}
+      .weather-section{border-right:none;border-bottom:1px solid var(--rule);padding:24px 5vw}
+      .insight-section{padding:24px 5vw}
+      .markets-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:520px){
+      .nl-form{flex-direction:column}
+      .nl-form button{text-align:center}
+      .markets-grid{grid-template-columns:1fr 1fr}
+      .affiliate-strip{flex-direction:column;text-align:center}
+      .nordpass-strip{flex-direction:column;text-align:center}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hidden Google Translate mount — do not remove -->
+<div id="google_translate_element" style="display:none"></div>
+
+<!-- ══════════════════ LOADER ══════════════════ -->
+<div id="loader">
+  <div class="l-logo">Fam<span>anova</span></div>
+  <div class="l-bar"><div class="l-prog"></div></div>
+  <div class="l-msg" id="loader-msg">Curating today's intelligence…</div>
+</div>
+
+<!-- ══════════════════ TICKER ══════════════════ -->
+<div class="ticker-bar" aria-label="Live market ticker">
+  <div class="ticker-label">MARKETS</div>
+  <div class="ticker-track notranslate" id="ticker-track" translate="no">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ══════════════════ MASTHEAD ══════════════════ -->
+<header class="masthead">
+  <div class="masthead-meta">
+    <div id="today-date"></div>
+    <div id="api-status">Loading…</div>
+    <div>famanova.com</div>
+  </div>
+  <div class="masthead-logo">
+    <h1>Fam<span class="brand-dot">a</span>nova</h1>
+    <div class="tagline">All you need to know today — in one scroll.</div>
+  </div>
+  <div class="masthead-right">
+    <span class="edition-label">Morning Edition</span>
+    <a href="#newsletter" class="btn-primary">Subscribe Free →</a>
+  </div>
+</header>
+<hr class="rule" />
+
+<!-- ══════════════════ TOP STORIES ══════════════════ -->
+<section class="top-stories" id="stories-section">
+  <div class="section-label">
+    Top Stories
+    <span class="live-badge"><span class="live-dot"></span>Live</span>
+  </div>
+  <div class="stories-grid" id="stories-grid">
+    <!-- Skeleton loading state -->
+    <div class="story-lead">
+      <div class="skeleton skeleton-h" style="width:80px;margin-bottom:12px"></div>
+      <div class="skeleton skeleton-lg" style="width:90%"></div>
+      <div class="skeleton skeleton-lg" style="width:70%"></div>
+      <div class="skeleton skeleton-p" style="width:100%"></div>
+      <div class="skeleton skeleton-p" style="width:100%"></div>
+      <div class="skeleton skeleton-p" style="width:80%"></div>
+    </div>
+    <div class="stories-side">
+      <div class="story-card" style="opacity:1;transform:none">
+        <div class="skeleton skeleton-h" style="width:60px;margin-bottom:8px"></div>
+        <div class="skeleton skeleton-p" style="width:100%"></div>
+        <div class="skeleton skeleton-p" style="width:90%"></div>
+      </div>
+      <div class="story-card" style="opacity:1;transform:none">
+        <div class="skeleton skeleton-h" style="width:60px;margin-bottom:8px"></div>
+        <div class="skeleton skeleton-p" style="width:100%"></div>
+        <div class="skeleton skeleton-p" style="width:80%"></div>
+      </div>
+      <div class="story-card" style="opacity:1;transform:none">
+        <div class="skeleton skeleton-h" style="width:60px;margin-bottom:8px"></div>
+        <div class="skeleton skeleton-p" style="width:100%"></div>
+        <div class="skeleton skeleton-p" style="width:75%"></div>
+      </div>
+      <div class="story-card" style="opacity:1;transform:none">
+        <div class="skeleton skeleton-h" style="width:60px;margin-bottom:8px"></div>
+        <div class="skeleton skeleton-p" style="width:100%"></div>
+        <div class="skeleton skeleton-p" style="width:85%"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ NORDVPN AFFILIATE ══════════════════ -->
+<div class="affiliate-strip">
+  <div class="aff-content">
+    <div>
+      <div class="aff-tag">✦ Sponsored · Partner Offer</div>
+      <div class="aff-logo">Nord<span>VPN</span></div>
+    </div>
+    <div>
+      <div class="aff-text">Browse securely — 68% off + 3 months free with NordVPN's top-rated protection</div>
+      <div class="aff-tag" style="margin-top:2px">Trusted by 14 million+ users worldwide</div>
+    </div>
+  </div>
+  <a href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=143758&url_id=902"
+     target="_blank" rel="noopener sponsored" class="btn-affiliate">
+    Get 68% Off →
+  </a>
+</div>
+
+<!-- ══════════════════ MARKET PULSE ══════════════════ -->
+<section class="market-section">
+  <div class="section-label" style="border-color:#3a3530">
+    Market Pulse
+    <span class="live-badge"><span class="live-dot"></span>Live</span>
+  </div>
+  <div class="markets-grid notranslate" id="markets-grid" translate="no">
+    <!-- Filled by JS -->
+  </div>
+  <!-- eToro / Investing affiliate inside markets -->
+  <div class="etoro-banner">
+    <div class="eb-left">
+      <div class="eb-tag">✦ Sponsored · Trading Platform</div>
+      <div class="eb-title">Trade stocks & crypto commission-free</div>
+      <div class="eb-sub">Join 30M+ traders on one of the world's leading social trading platforms</div>
+    </div>
+    <!-- Replace href below with your eToro or Investing.com affiliate link -->
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=143758&url_id=902"
+       target="_blank" rel="noopener sponsored" class="btn-etoro">
+      Start Trading Free →
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════ NORDPASS AFFILIATE ══════════════════ -->
+<div class="nordpass-strip">
+  <div class="np-left">
+    <div class="np-icon">🔐</div>
+    <div>
+      <div class="np-title">✦ Partner Offer · Password Security</div>
+      <div class="np-desc">NordPass — never forget a password again. Enterprise-grade encryption, free plan available.</div>
+    </div>
+  </div>
+  <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=143758&url_id=9356"
+     target="_blank" rel="noopener sponsored" class="btn-nordpass">
+    Try NordPass Free →
+  </a>
+</div>
+
+<!-- ══════════════════ WEATHER + INSIGHT ══════════════════ -->
+<div class="two-col">
+
+  <!-- WEATHER -->
+  <section class="weather-section">
+    <div class="section-label">Local Weather</div>
+    <div class="w-city"><span id="w-city-name">Detecting your location…</span></div>
+    <div class="weather-main">
+      <div class="w-icon" id="w-icon">🌤</div>
+      <div>
+        <div class="w-temp" id="w-temp">—<sup>°C</sup></div>
+        <div class="w-desc" id="w-desc">Fetching weather…</div>
+      </div>
+    </div>
+    <div class="weather-meta">
+      <div class="wm-item"><div class="wm-label">Humidity</div><div class="wm-val" id="w-hum">—</div></div>
+      <div class="wm-item"><div class="wm-label">Wind</div><div class="wm-val" id="w-wind">—</div></div>
+      <div class="wm-item"><div class="wm-label">Feels Like</div><div class="wm-val" id="w-feels">—</div></div>
+      <div class="wm-item"><div class="wm-label">Visibility</div><div class="wm-val" id="w-vis">—</div></div>
+    </div>
+    <div class="weather-forecast" id="w-forecast">
+      <!-- Filled by JS -->
+    </div>
+  </section>
+
+  <!-- INSIGHT -->
+  <section class="insight-section">
+    <div class="section-label">Insight of the Day</div>
+    <div class="insight-box">
+      <div class="i-label">✦ Daily Wisdom</div>
+      <blockquote id="quote-text">"The measure of intelligence is the ability to change."</blockquote>
+      <div class="i-author" id="quote-author">Albert Einstein</div>
+      <div class="ai-toggle">
+        <button onclick="toggleFact()">+ AI Fact of the Day</button>
+        <div class="ai-fact" id="ai-fact">
+          🤖 <strong>Today's AI Insight:</strong> Transformer models — the architecture behind every modern LLM — process all tokens in a sequence simultaneously, not one-by-one like older RNNs. This single design choice enabled the scaling revolution and led directly to ChatGPT, Gemini, and Claude existing today.
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════ MORNING BREW REFERRAL ══════════════════ -->
+<div class="morning-brew-strip">
+  <div class="mb-text">
+    ☕ <strong>Also loved by 4M+ readers:</strong> Morning Brew delivers business news in a way you'll actually enjoy reading — free, every weekday morning.
+  </div>
+  <a href="https://www.morningbrew.com/r?kid=39581d88"
+     target="_blank" rel="noopener" class="btn-mb">
+    Try Morning Brew →
+  </a>
+</div>
+
+<!-- ══════════════════ HOSTINGER AFFILIATE ══════════════════ -->
+<div class="hostinger-strip">
+  <div class="hostinger-inner">
+    <div class="hostinger-left">
+      <div class="hostinger-icon">🚀</div>
+      <div>
+        <div class="hostinger-tag">✦ Sponsored · Web Hosting Partner</div>
+        <div class="hostinger-title">Launch your website today — from just $2.99/month</div>
+        <div class="hostinger-sub">Blazing-fast hosting used by 3 million+ websites across 150 countries</div>
+        <span class="hostinger-badge">⚡ Up to 80% Off — Limited Offer</span>
+      </div>
+    </div>
+    <a href="https://www.hostinger.com?REFERRALCODE=WENIKPOMAK80"
+       target="_blank" rel="noopener sponsored" class="btn-hostinger">
+      Claim Discount →
+    </a>
+  </div>
+</div>
+<!-- ══════════════════ NEWSLETTER ══════════════════ -->
+<section class="newsletter-section" id="newsletter">
+  <h2>Get smarter every morning.</h2>
+  <p>Join 10,000+ readers who start their day with Famanova — free, always.</p>
+  <div class="nl-form" id="nl-form-wrap">
+    <input type="email" id="nl-email" placeholder="your@email.com" aria-label="Email address" />
+    <button onclick="handleSubscribe()">Subscribe →</button>
+  </div>
+  <div class="nl-success" id="nl-success">
+    ✦ You're in. Your first brief arrives tomorrow morning.
+  </div>
+  <p class="nl-note">No spam · Unsubscribe anytime · ~60 seconds to read each morning</p>
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(13,13,13,.12);position:relative;">
+    <p style="font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    color:rgba(13,13,13,.5);margin-bottom:8px;">Want to build your own site like this?</p>
+    <a href="https://www.hostinger.com?REFERRALCODE=WENIKPOMAK80"
+       target="_blank" rel="noopener sponsored"
+       style="font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;
+       color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--ink);
+       padding-bottom:2px;transition:color .2s;font-weight:500;">
+       🚀 Get fast web hosting from $2.99/month — Hostinger →
+    </a>
+  </div>
+
+<!-- ══════════════════ LANGUAGE SELECTOR ══════════════════ -->
+<div class="lang-bar">
+  <span class="lang-label">🌐 Language</span>
+  <select class="lang-select" id="lang-select" onchange="translatePage(this.value)" aria-label="Select language">
+    <option value="en" selected>🇬🇧 English</option>
+    <optgroup label="── Europe ──">
+      <option value="fr">🇫🇷 Français (French)</option>
+      <option value="de">🇩🇪 Deutsch (German)</option>
+      <option value="es">🇪🇸 Español (Spanish)</option>
+      <option value="pt">🇵🇹 Português (Portuguese)</option>
+      <option value="it">🇮🇹 Italiano (Italian)</option>
+      <option value="nl">🇳🇱 Nederlands (Dutch)</option>
+      <option value="pl">🇵🇱 Polski (Polish)</option>
+      <option value="sv">🇸🇪 Svenska (Swedish)</option>
+      <option value="no">🇳🇴 Norsk (Norwegian)</option>
+      <option value="da">🇩🇰 Dansk (Danish)</option>
+      <option value="fi">🇫🇮 Suomi (Finnish)</option>
+      <option value="ru">🇷🇺 Русский (Russian)</option>
+      <option value="uk">🇺🇦 Українська (Ukrainian)</option>
+      <option value="el">🇬🇷 Ελληνικά (Greek)</option>
+      <option value="ro">🇷🇴 Română (Romanian)</option>
+      <option value="cs">🇨🇿 Čeština (Czech)</option>
+      <option value="hu">🇭🇺 Magyar (Hungarian)</option>
+      <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+    </optgroup>
+    <optgroup label="── Middle East ──">
+      <option value="ar">🇸🇦 العربية (Arabic)</option>
+      <option value="fa">🇮🇷 فارسی (Persian/Farsi)</option>
+      <option value="he">🇮🇱 עברית (Hebrew)</option>
+      <option value="ur">🇵🇰 اردو (Urdu)</option>
+    </optgroup>
+    <optgroup label="── Asia ──">
+      <option value="zh-CN">🇨🇳 中文简体 (Chinese Simplified)</option>
+      <option value="zh-TW">🇹🇼 中文繁體 (Chinese Traditional)</option>
+      <option value="ja">🇯🇵 日本語 (Japanese)</option>
+      <option value="ko">🇰🇷 한국어 (Korean)</option>
+      <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+      <option value="bn">🇧🇩 বাংলা (Bengali)</option>
+      <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
+      <option value="te">🇮🇳 తెలుగు (Telugu)</option>
+      <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
+      <option value="th">🇹🇭 ภาษาไทย (Thai)</option>
+      <option value="id">🇮🇩 Bahasa Indonesia</option>
+      <option value="ms">🇲🇾 Bahasa Melayu (Malay)</option>
+      <option value="tl">🇵🇭 Filipino (Tagalog)</option>
+    </optgroup>
+    <optgroup label="── Americas ──">
+      <option value="es-419">🌎 Español Latino (Latin Am. Spanish)</option>
+      <option value="pt-BR">🇧🇷 Português Brasileiro (Brazilian Portuguese)</option>
+      <option value="ht">🇭🇹 Kreyòl ayisyen (Haitian Creole)</option>
+    </optgroup>
+    <optgroup label="── Africa ──">
+      <option value="sw">🌍 Kiswahili (Swahili)</option>
+      <option value="am">🇪🇹 አማርኛ (Amharic)</option>
+      <option value="yo">🇳🇬 Yorùbá</option>
+      <option value="ig">🇳🇬 Igbo</option>
+      <option value="ha">🇳🇬 Hausa</option>
+      <option value="so">🇸🇴 Soomaali (Somali)</option>
+      <option value="zu">🇿🇦 isiZulu (Zulu)</option>
+      <option value="af">🇿🇦 Afrikaans</option>
+    </optgroup>
+    <optgroup label="── Australasia / Pacific ──">
+      <option value="mi">🇳🇿 Te Reo Māori (Māori)</option>
+    </optgroup>
+  </select>
+</div>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-main">
+    <div class="f-logo">Fam<span>a</span>nova</div>
+    <div class="f-links">
+      <a onclick="openModal('about')">About</a>
+      <a onclick="openModal('advertise')">Advertise</a>
+      <a onclick="openModal('privacy')">Privacy Policy</a>
+      <a href="#">Archive</a>
+      <a href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=143758&url_id=902" target="_blank" rel="noopener sponsored">Stay Secure</a>
+      <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=143758&url_id=9356" target="_blank" rel="noopener sponsored">Password Manager</a>
+      <a href="https://www.hostinger.com?REFERRALCODE=WENIKPOMAK80" target="_blank" rel="noopener sponsored">Web Hosting</a>
+    </div>
+    <div class="f-copy">© <span id="footer-year"></span> Famanova · famanova.com</div>
+  </div>
+
+  <!-- Affiliate Disclosure -->
+  <div class="footer-disclosure">
+    <strong>Affiliate Disclosure &amp; Disclaimer</strong>
+    Famanova participates in affiliate marketing programmes. Some links on this page are affiliate links — if you click and make a purchase, we may earn a small commission at no extra cost to you. This helps keep Famanova free for everyone.
+    Affiliated partners include NordVPN, NordPass, Hostinger, and Morning Brew.
+    News summaries are AI-generated for informational purposes only and do not constitute financial, legal, or professional advice.
+    Market data is provided for general information and may be delayed. Always verify with official sources before making financial decisions.
+    <br/>
+    <a onclick="openModal('privacy')">Privacy Policy</a> &nbsp;·&nbsp;
+    <a onclick="openModal('advertise')">Advertise With Us</a> &nbsp;·&nbsp;
+    <a onclick="openModal('about')">About Famanova</a> &nbsp;·&nbsp;
+    <a href="mailto:famanova@proton.me">Contact Us</a>
+  </div>
+</footer>
+
+<!-- ══════════════════ MODAL: ABOUT ══════════════════ -->
+<div class="modal-overlay" id="modal-about" onclick="closeModalOutside(event, 'about')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-tag">✦ Our Story</div>
+        <h2>About Famanova</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('about')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>What is Famanova?</h3>
+      <p>Famanova is a free, AI-powered daily intelligence brief — designed for busy professionals, entrepreneurs, students, and curious minds who want to stay informed without spending an hour scrolling through news apps.</p>
+      <p>Every morning, Famanova automatically curates the top 5 global stories, pulls live financial market data, reads your local weather, and delivers a daily insight — all in one clean, fast-loading page. No account. No download. No clutter.</p>
+
+      <h3>Our Mission</h3>
+      <p>Information should be accessible to everyone. We believe the world's most important news, markets, and insights should take less than 60 seconds to absorb — and should be available to anyone, anywhere, for free.</p>
+      <p>From New York to London, São Paulo to Sydney, Dubai to Singapore, Cape Town to Nairobi — Famanova serves the same high-quality brief, tailored to your local weather and global moment.</p>
+
+      <h3>How It Works</h3>
+      <ul>
+        <li><strong>News:</strong> Live global headlines sourced from multiple news APIs and summarised for clarity. Updated on every page load.</li>
+        <li><strong>Markets:</strong> Real-time prices for S&amp;P 500, NASDAQ, Bitcoin, Ethereum, Gold and Oil — refreshed every 60 seconds.</li>
+        <li><strong>Weather:</strong> Auto-detects your city via GPS and fetches live conditions from OpenWeatherMap.</li>
+        <li><strong>Insights:</strong> Daily wisdom quotes and AI-curated facts to spark thinking.</li>
+      </ul>
+
+      <h3>How We Stay Free</h3>
+      <p>Famanova is supported by affiliate partnerships (NordVPN, NordPass, Hostinger, Morning Brew) and newsletter sponsorships. When you click an affiliate link and make a purchase, we earn a small commission — at no cost to you. This is what keeps the lights on and the page free forever.</p>
+
+      <h3>Contact Us</h3>
+      <div class="contact-box">
+        <p>📧 famanova@proton.me</p>
+        <p>🌐 famanova.com</p>
+        <p>📍 Famanova Media · famanova.com</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MODAL: ADVERTISE ══════════════════ -->
+<div class="modal-overlay" id="modal-advertise" onclick="closeModalOutside(event, 'advertise')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-tag">✦ Partner With Us</div>
+        <h2>Advertise on Famanova</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('advertise')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Who Reads Famanova?</h3>
+      <p>Our audience is made up of professionals, entrepreneurs, investors, and educated adults aged 25–45 who check Famanova every morning as part of their daily routine. They are financially active, digitally engaged, and responsive to relevant offers.</p>
+      <ul>
+        <li>📍 Global reach — North America, Europe, Australasia, Asia, South America, Africa, Middle East</li>
+        <li>📱 65% mobile, 35% desktop</li>
+        <li>⏰ Peak traffic: 6am–9am local time daily</li>
+        <li>📬 Growing newsletter subscriber base</li>
+      </ul>
+
+      <h3>Advertising Options</h3>
+      <div class="rate-card">
+        <table>
+          <tr><th>Placement</th><th>Format</th><th>Rate</th></tr>
+          <tr><td>Newsletter Sponsorship</td><td>Top-of-email banner + mention</td><td>From $500/send</td></tr>
+          <tr><td>Sponsored Story (Story #5)</td><td>Native article placement</td><td>From $300/week</td></tr>
+          <tr><td>Homepage Banner Strip</td><td>Full-width contextual banner</td><td>From $200/week</td></tr>
+          <tr><td>Market Section Sponsor</td><td>Branded banner beside live data</td><td>From $150/week</td></tr>
+          <tr><td>Monthly Package</td><td>All placements + newsletter</td><td>From $1,500/mo</td></tr>
+        </table>
+      </div>
+
+      <h3>Ideal Categories</h3>
+      <p>We welcome advertisers in: FinTech &amp; investing apps · VPN &amp; cybersecurity · Web hosting &amp; SaaS · Business tools · Online education · News &amp; media subscriptions · Productivity apps · Crypto platforms</p>
+
+      <h3>Get in Touch</h3>
+      <div class="contact-box">
+        <p>📧 famanova@proton.me</p>
+        <p>We respond within 24 hours. Please include your brand name, target audience, and approximate budget.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MODAL: PRIVACY POLICY ══════════════════ -->
+<div class="modal-overlay" id="modal-privacy" onclick="closeModalOutside(event, 'privacy')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-tag">✦ Legal</div>
+        <h2>Privacy Policy</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('privacy')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family:var(--f-mono);font-size:10px;color:var(--muted)">Last updated: <span id="privacy-date"></span></p>
+
+      <h3>1. Information We Collect</h3>
+      <p>Famanova is a static website. We do not operate a database or store personal data on our own servers. However, the following data may be collected by third-party services we use:</p>
+      <ul>
+        <li><strong>Location data:</strong> Your browser may share GPS coordinates with our weather API (OpenWeatherMap) to display your local forecast. This is requested with your permission and is not stored by us.</li>
+        <li><strong>Email address:</strong> If you subscribe to our newsletter, your email is stored by our newsletter provider (Beehiiv/Substack). We do not sell or share your email.</li>
+        <li><strong>Analytics data:</strong> We use Google Analytics to understand aggregate traffic patterns (pages visited, device types, general geography). No personally identifiable data is shared with us.</li>
+      </ul>
+
+      <h3>2. Cookies</h3>
+      <p>Famanova and its advertising partners may use cookies to serve relevant advertisements and measure performance. You can control cookie preferences through your browser settings. We comply with GDPR, CCPA, and applicable data protection laws.</p>
+
+      <h3>3. Affiliate Links</h3>
+      <p>This website contains affiliate links. When you click these links and make a purchase, we may receive a commission. This does not affect the price you pay. Affiliated partners include NordVPN, NordPass, Hostinger, Morning Brew, and others clearly labelled "Sponsored" or "Partner Offer."</p>
+
+      <h3>4. Third-Party Services</h3>
+      <ul>
+        <li><strong>OpenWeatherMap</strong> — weather data. See their <a href="https://openweathermap.org/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+        <li><strong>Google Analytics</strong> — traffic analytics. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
+        <li><strong>Nominatim / OpenStreetMap</strong> — reverse geocoding for weather location. See <a href="https://osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">OSM Privacy Policy</a>.</li>
+        <li><strong>Finnhub / Twelve Data / Yahoo Finance</strong> — live market data.</li>
+      </ul>
+
+      <h3>5. Your Rights</h3>
+      <p>Depending on your location, you may have the right to access, correct, or delete personal data held about you by our third-party providers. For EU/UK residents (GDPR) and California residents (CCPA), you may opt out of data collection through the cookie consent banner or by contacting us directly.</p>
+
+      <h3>6. Children's Privacy</h3>
+      <p>Famanova is not directed at children under 13. We do not knowingly collect data from minors.</p>
+
+      <h3>7. Changes to This Policy</h3>
+      <p>We may update this Privacy Policy from time to time. The date at the top of this page reflects the most recent revision. Continued use of Famanova after changes constitutes acceptance.</p>
+
+      <h3>8. Contact</h3>
+      <div class="contact-box">
+        <p>📧 famanova@proton.me</p>
+        <p>For data requests, please include your full name and the nature of your request. We respond within 30 days.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ─── CONFIG ─── */
+const CONFIG = {
+  OWM_KEY:          '75ac811b8d9f21fcd1200e42ab2fb224',
+  THENEWS_KEY:      '8UdSeP7CpauRb8mKNrOtGVULm69fO9EvkAQnDpEU',
+  WORLDNEWS_KEY:    'e2ac65863a5a4c36acf44466e6d0098f',
+  WEBZ_TOKEN:       'f1f4c67f-8c2d-4f89-9abf-b609d47c02cb',
+  NEWSAPI_KEY:      '399cf8f5d0fe4f33ba9f7257c89ca201',
+  FINNHUB_KEY:      'd6vc4qpr01qiiutb8ttgd6vc4qpr01qiiutb8tu0',
+  TWELVEDATA_KEY:   'd574910951124421b6573242652a5960',
+};
+
+/* ─── LOADER ─── */
+const loader = document.getElementById('loader');
+const loaderMsg = document.getElementById('loader-msg');
+const msgs = ['Scanning global headlines…','Checking live markets…','Reading the weather…','Compiling your brief…'];
+let mi = 0;
+const msgInterval = setInterval(() => { if (++mi < msgs.length) loaderMsg.textContent = msgs[mi]; }, 700);
+setTimeout(() => {
+  clearInterval(msgInterval);
+  loader.classList.add('hidden');
+}, 3200);
+
+/* ─── DATE ─── */
+const now = new Date();
+document.getElementById('today-date').textContent =
+  now.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+document.getElementById('footer-year').textContent = now.getFullYear();
+
+/* ─── STATUS BADGE ─── */
+function setStatus(msg, type='') {
+  const el = document.getElementById('api-status');
+  el.textContent = msg; el.className = type;
+}
+
+/* ─── QUOTES ─── */
+const QUOTES = [
+  { t: 'The measure of intelligence is the ability to change.', a: 'Albert Einstein' },
+  { t: 'An investment in knowledge pays the best interest.', a: 'Benjamin Franklin' },
+  { t: 'Information is the oil of the 21st century, and analytics is the combustion engine.', a: 'Peter Sondergaard' },
+  { t: 'The world is changed by your example, not by your opinion.', a: 'Paulo Coelho' },
+  { t: 'Knowledge is power. Information is liberating.', a: 'Kofi Annan' },
+  { t: 'The only true wisdom is in knowing you know nothing.', a: 'Socrates' },
+  { t: 'In the middle of every difficulty lies opportunity.', a: 'Albert Einstein' },
+  { t: 'It does not matter how slowly you go as long as you do not stop.', a: 'Confucius' },
+  { t: 'The best investment you can make is in yourself.', a: 'Warren Buffett' },
+  { t: 'Risk comes from not knowing what you\'re doing.', a: 'Warren Buffett' },
+];
+const q = QUOTES[now.getDay() % QUOTES.length];
+document.getElementById('quote-text').textContent = `"${q.t}"`;
+document.getElementById('quote-author').textContent = q.a;
+
+function toggleFact() {
+  document.getElementById('ai-fact').classList.toggle('visible');
+}
+
+/* ══════════════════════════════════════════
+   NEWS API — waterfall with 3 sources
+══════════════════════════════════════════ */
+const CATEGORY_MAP = {
+  business:'Business', politics:'Politics', tech:'Technology',
+  technology:'Technology', science:'Science', health:'Health',
+  sports:'Sports', entertainment:'Entertainment', world:'World',
+  general:'World', finance:'Finance', economy:'Economy',
+};
+
+function cleanCategory(cat) {
+  if (!cat) return 'World';
+  const c = (Array.isArray(cat) ? cat[0] : cat).toLowerCase();
+  return CATEGORY_MAP[c] || cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function truncate(str, n) {
+  if (!str) return '';
+  return str.length > n ? str.slice(0, n).replace(/\s+\S*$/, '') + '…' : str;
+}
+
+/* ── Safe fetch with timeout — compatible with Google Translate iframes ──
+   AbortSignal.timeout() cannot be cloned across postMessage boundaries.
+   This manual AbortController pattern works everywhere. */
+function fetchT(url, ms, opts) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...opts, signal: ctrl.signal })
+    .finally(() => clearTimeout(timer));
+}
+
+async function fetchNews() {
+  // ── Source 1: thenewsapi.com (CORS-friendly) ──
+  try {
+    const url = `https://api.thenewsapi.com/v1/news/top?api_token=${CONFIG.THENEWS_KEY}&locale=us,gb&language=en&limit=6`;
+    const res = await fetchT(url, 6000);
+    if (!res.ok) throw new Error('thenewsapi ' + res.status);
+    const d = await res.json();
+    if (d.data && d.data.length >= 4) {
+      renderNews(d.data.slice(0, 5).map(a => ({
+        title:    a.title,
+        desc:     truncate(a.description || a.snippet, 200),
+        category: cleanCategory(a.categories),
+        source:   a.source,
+        url:      a.url,
+        time:     a.published_at ? new Date(a.published_at).toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'}) : '',
+      })));
+      setStatus('✓ Live news', 'live');
+      return;
+    }
+  } catch(e) { console.warn('[Source 1 thenewsapi]', e.message); }
+
+  // ── Source 2: worldnewsapi ──
+  try {
+    const today = now.toISOString().slice(0, 10);
+    const url = `https://api.worldnewsapi.com/top-news?source-country=us&language=en&date=${today}&api-key=${CONFIG.WORLDNEWS_KEY}`;
+    const res = await fetchT(url, 6000);
+    if (!res.ok) throw new Error('worldnews ' + res.status);
+    const d = await res.json();
+    const articles = d.top_news?.flatMap(n => n.news).slice(0, 5) || [];
+    if (articles.length >= 3) {
+      renderNews(articles.map(a => ({
+        title:    a.title,
+        desc:     truncate(a.text || a.summary, 200),
+        category: 'World',
+        source:   a.publish_date ? new URL(a.url || 'https://example.com').hostname.replace('www.','') : 'World News',
+        url:      a.url || '#',
+        time:     a.publish_date ? new Date(a.publish_date).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}) : '',
+      })));
+      setStatus('✓ Live news', 'live');
+      return;
+    }
+  } catch(e) { console.warn('[Source 2 worldnewsapi]', e.message); }
+
+  // ── Source 3: webz.io ──
+  try {
+    const url = `https://api.webz.io/newsApiLite?token=${CONFIG.WEBZ_TOKEN}&q=breaking+news+today&language=english&sort=crawled&size=6`;
+    const res = await fetchT(url, 7000);
+    if (!res.ok) throw new Error('webz ' + res.status);
+    const d = await res.json();
+    if (d.posts && d.posts.length >= 3) {
+      renderNews(d.posts.slice(0, 5).map(p => ({
+        title:    p.title,
+        desc:     truncate(p.text, 200),
+        category: cleanCategory(p.thread?.section_title) || 'News',
+        source:   p.thread?.site_full || 'News',
+        url:      p.url || '#',
+        time:     p.published ? new Date(p.published).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}) : '',
+      })));
+      setStatus('✓ Live news', 'live');
+      return;
+    }
+  } catch(e) { console.warn('[Source 3 webz]', e.message); }
+
+  // ── Fallback: static curated stories ──
+  console.warn('All news APIs failed — using curated fallback stories');
+  setStatus('⚡ Curated brief', '');
+  renderNews(FALLBACK_STORIES);
+}
+
+/* ── CATEGORY COLOR MAP ── */
+const CAT_COLORS = {
+  World:'#c0392b', Technology:'#2980b9', Business:'#1a6b3c', Finance:'#8e44ad',
+  Health:'#16a085', Science:'#2c3e50', Politics:'#e67e22', Economy:'#6d4c41',
+  Sports:'#1abc9c', Entertainment:'#d35400',
+};
+
+function getCatColor(cat) { return CAT_COLORS[cat] || '#8a8070'; }
+
+function renderNews(articles) {
+  const grid = document.getElementById('stories-grid');
+  if (!articles || articles.length === 0) { renderNews(FALLBACK_STORIES); return; }
+
+  const lead = articles[0];
+  const sides = articles.slice(1, 5);
+
+  grid.innerHTML = `
+    <article class="story-lead">
+      <div class="s-cat" style="color:${getCatColor(lead.category)}">${lead.category}</div>
+      <h2>${escHtml(lead.title)}</h2>
+      <p class="s-summary">${escHtml(lead.desc)}</p>
+      <div class="s-byline">AI Summary · ${escHtml(lead.source || '')} ${lead.time ? '· ' + lead.time + ' EST' : ''}</div>
+      <a href="${escHtml(lead.url)}" class="s-link" target="_blank" rel="noopener">Read full story →</a>
+    </article>
+    <div class="stories-side">
+      ${sides.map((a, i) => `
+        <article class="story-card">
+          <div class="s-num">0${i + 2}</div>
+          <div class="s-cat" style="color:${getCatColor(a.category)}">${a.category}</div>
+          <h3><a href="${escHtml(a.url)}" target="_blank" rel="noopener">${escHtml(a.title)}</a></h3>
+          <p>${escHtml(truncate(a.desc, 120))}</p>
+        </article>`).join('')}
+    </div>`;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+const FALLBACK_STORIES = [
+  { title:'G7 Nations Agree on Historic AI Governance Framework', desc:'World leaders reached landmark consensus on binding regulations for frontier AI models, establishing a multilateral oversight body with enforcement powers.', category:'World', source:'Reuters / AP', url:'#', time:'06:14' },
+  { title:'Fed Holds Rates Steady; Signals Two Cuts Before Year-End', desc:'Policymakers cited easing inflation and stable labor markets, though revised growth forecasts slightly downward for Q3.', category:'Economy', source:'Bloomberg', url:'#', time:'07:02' },
+  { title:'Nvidia\'s New Blackwell Ultra Chip Doubles AI Inference Speed', desc:'The H300 variant will begin shipping to cloud providers in Q2 and is expected to reshape data-center economics globally.', category:'Technology', source:'The Verge', url:'#', time:'08:30' },
+  { title:'Antarctic Ice Shelf Reaches Critical Melt Threshold', desc:'Scientists warn the Thwaites Glacier\'s eastern ice shelf may be past tipping point; sea-level projections revised upward by 12 cm by 2100.', category:'Science', source:'Nature', url:'#', time:'09:15' },
+  { title:'WHO Approves First Universal Flu Vaccine for Global Distribution', desc:'The mRNA-based shot covers all known influenza A/B strains and could end the cycle of annual reformulations.', category:'Health', source:'WHO / BBC', url:'#', time:'10:00' },
+];
+
+/* ══════════════════════════════════════════
+   LIVE MARKET DATA
+   Waterfall: Yahoo Finance → Finnhub → Twelve Data → Static
+══════════════════════════════════════════ */
+
+/* Symbol definitions for each data source */
+const MARKET_DEFS = [
+  { id:'spx',  sym:'S&P 500', name:'US Equities',    prefix:'',  dec:0, yahoo:'^GSPC',           fh:'^GSPC',            td:'SPX'    },
+  { id:'ndx',  sym:'NASDAQ',  name:'Tech Index',     prefix:'',  dec:0, yahoo:'^IXIC',           fh:'^IXIC',            td:'IXIC'   },
+  { id:'btc',  sym:'BTC',     name:'Bitcoin',        prefix:'$', dec:0, yahoo:'BTC-USD',         fh:'BINANCE:BTCUSDT',  td:'BTC/USD'},
+  { id:'eth',  sym:'ETH',     name:'Ethereum',       prefix:'$', dec:0, yahoo:'ETH-USD',         fh:'BINANCE:ETHUSDT',  td:'ETH/USD'},
+  { id:'gold', sym:'GOLD',    name:'Spot Gold $/oz', prefix:'$', dec:0, yahoo:'GC=F',            fh:'',                 td:'XAU/USD'},
+  { id:'oil',  sym:'OIL',     name:'Brent Crude',    prefix:'$', dec:2, yahoo:'BZ=F',            fh:'',                 td:'BRENT'  },
+];
+
+/* Static fallback values */
+const MARKET_FALLBACK = ['5,647','17,980','$83,210','$3,180','$2,294','$78.40'];
+const MARKET_FALLBACK_PCT = ['+0.44%','+0.61%','-0.88%','-1.20%','+0.18%','-0.22%'];
+const MARKET_FALLBACK_DIR = ['up','up','dn','dn','up','dn'];
+
+let liveMarketCache = null; // shared with ticker
+
+/* ── Formatters ── */
+function fmtPrice(val, prefix, dec) {
+  if (val == null || val === '' || isNaN(Number(val))) return '—';
+  const n = Number(val);
+  return prefix + n.toLocaleString('en-US', { minimumFractionDigits:dec, maximumFractionDigits:dec });
+}
+function fmtPct(val) {
+  const n = Number(val);
+  if (isNaN(n)) return '±0.00%';
+  return (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
+}
+function getDir(pct) {
+  const n = Number(pct);
+  if (isNaN(n) || Math.abs(n) < 0.05) return 'flat';
+  return n > 0 ? 'up' : 'dn';
+}
+
+/* ── Sparkline generator ── */
+function buildSparkline(dir) {
+  const pts = Array.from({length:14}, (_,i) => {
+    const trend = dir==='up' ? i*1.6 : dir==='dn' ? -i*1.6 : Math.sin(i*0.9)*4;
+    return Math.max(2, Math.min(30, 16 + trend + (Math.random()-.5)*7));
+  });
+  const xs = pts.map((_,i) => (i/(pts.length-1))*100);
+  const line = pts.map((y,i) => `${i===0?'M':'L'}${xs[i].toFixed(1)},${(32-y).toFixed(1)}`).join(' ');
+  const fill = line + ' L100,32 L0,32 Z';
+  const gid = 'sg' + Math.random().toString(36).slice(2,7);
+  const c = dir==='up'?'#4ade80':dir==='dn'?'#f87171':'#7a7060';
+  return `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="${c}" stop-opacity=".3"/>
+    <stop offset="100%" stop-color="${c}" stop-opacity="0"/>
+  </linearGradient></defs>
+  <path d="${fill}" fill="url(#${gid})"/>
+  <path d="${line}" fill="none" stroke="${c}" stroke-width="1.6" stroke-linejoin="round"/>`;
+}
+
+/* ── Skeleton while loading ── */
+function showMarketSkeleton() {
+  document.getElementById('markets-grid').innerHTML = MARKET_DEFS.map(() => `
+    <div class="market-card" style="opacity:1">
+      <div class="skeleton skeleton-h" style="width:55px;margin-bottom:8px"></div>
+      <div class="skeleton skeleton-p" style="width:80px;margin-bottom:12px"></div>
+      <div class="skeleton skeleton-lg" style="width:90px;margin-bottom:6px"></div>
+      <div class="skeleton skeleton-p" style="width:52px"></div>
+    </div>`).join('');
+}
+
+/* ── Render live market cards ── */
+function renderMarkets(data) {
+  liveMarketCache = data;
+  const arrows = { up:'▲', dn:'▼', flat:'●' };
+  document.getElementById('markets-grid').innerHTML = data.map((m, i) => `
+    <div class="market-card" style="animation-delay:${(i+1)*.08}s">
+      <div class="m-sym">${m.sym}</div>
+      <div class="m-name">${m.name}</div>
+      <div class="m-price" id="mp-${m.id}">${m.price}</div>
+      <div class="m-change ${m.dir}" id="mc-${m.id}">${arrows[m.dir]} ${m.pct}</div>
+      <svg class="sparkline" viewBox="0 0 100 32" preserveAspectRatio="none">${buildSparkline(m.dir)}</svg>
+    </div>`).join('');
+  updateTickerLive(data); // sync ticker with live prices
+}
+
+/* ── Source 1: Yahoo Finance (no key, unofficial) ── */
+async function tryYahoo() {
+  const syms = MARKET_DEFS.map(m => encodeURIComponent(m.yahoo)).join(',');
+  const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${syms}`;
+  const res = await fetchT(url, 6000);
+  if (!res.ok) throw new Error('Yahoo HTTP ' + res.status);
+  const d = await res.json();
+  const quotes = d?.quoteResponse?.result || [];
+  if (quotes.length < 4) throw new Error('Yahoo: insufficient data');
+  return MARKET_DEFS.map(def => {
+    const q = quotes.find(q => q.symbol === def.yahoo) || {};
+    const pct = q.regularMarketChangePercent || 0;
+    return { ...def, price: fmtPrice(q.regularMarketPrice, def.prefix, def.dec), pct: fmtPct(pct), dir: getDir(pct) };
+  });
+}
+
+/* ── Source 2: Finnhub — crypto only on free tier (indices not supported) ── */
+async function tryFinnhub() {
+  const defs = MARKET_DEFS.filter(m => m.fh); // only symbols with a Finnhub entry
+  const calls = defs.map(m =>
+    fetchT(
+      `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(m.fh)}&token=${CONFIG.FINNHUB_KEY}`,
+      6000
+    )
+      .then(r => r.json())
+      .then(d => ({ id: m.id, c: d.c, pc: d.pc }))
+      .catch(() => null)
+  );
+  const results = await Promise.all(calls);
+  const valid = results.filter(r => r && r.c > 0);
+  // Free tier returns crypto reliably; need at least 2 valid quotes
+  if (valid.length < 2) throw new Error('Finnhub: insufficient valid quotes');
+  return MARKET_DEFS.map((def, fi) => {
+    const r = valid.find(r => r.id === def.id);
+    const pct = r ? ((r.c - r.pc) / r.pc * 100) : 0;
+    return {
+      ...def,
+      price: r ? fmtPrice(r.c, def.prefix, def.dec) : MARKET_FALLBACK[fi],
+      pct:   r ? fmtPct(pct) : MARKET_FALLBACK_PCT[fi],
+      dir:   r ? getDir(pct) : MARKET_FALLBACK_DIR[fi],
+    };
+  });
+}
+
+/* ── Source 3: Twelve Data (single batch call) ── */
+async function tryTwelveData() {
+  const syms = MARKET_DEFS.map(m => m.td).join(',');
+  const url = `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(syms)}&apikey=${CONFIG.TWELVEDATA_KEY}`;
+  const res = await fetchT(url, 7000);
+  if (!res.ok) throw new Error('TwelveData HTTP ' + res.status);
+  const d = await res.json();
+  const lookup = (sym) => d[sym] || null;
+  const validCount = MARKET_DEFS.filter(def => lookup(def.td)?.close).length;
+  if (validCount < 3) throw new Error('TwelveData: insufficient data');
+  return MARKET_DEFS.map((def, fi) => {
+    const q = lookup(def.td);
+    const pct = q ? Number(q.percent_change) : 0;
+    return {
+      ...def,
+      price: q ? fmtPrice(q.close, def.prefix, def.dec) : MARKET_FALLBACK[fi],
+      pct:   q ? fmtPct(pct) : MARKET_FALLBACK_PCT[fi],
+      dir:   q ? getDir(pct) : MARKET_FALLBACK_DIR[fi],
+    };
+  });
+}
+
+/* ── Static fallback ── */
+function getStaticMarkets() {
+  return MARKET_DEFS.map((def, i) => ({
+    ...def,
+    price: MARKET_FALLBACK[i],
+    pct:   MARKET_FALLBACK_PCT[i],
+    dir:   MARKET_FALLBACK_DIR[i],
+  }));
+}
+
+/* ── Master fetch with waterfall ── */
+async function fetchMarkets() {
+  showMarketSkeleton();
+
+  const sources = [
+    { name:'Yahoo Finance', fn: tryYahoo      },
+    { name:'Finnhub',       fn: tryFinnhub    },
+    { name:'Twelve Data',   fn: tryTwelveData },
+  ];
+
+  for (const src of sources) {
+    try {
+      const data = await src.fn();
+      renderMarkets(data);
+      setStatus(`✓ Markets: ${src.name}`, 'live');
+      console.log(`[Markets] ${src.name} ✓`);
+      return;
+    } catch(e) {
+      console.warn(`[Markets] ${src.name} failed:`, e.message);
+    }
+  }
+
+  // All sources failed — use static
+  renderMarkets(getStaticMarkets());
+  setStatus('⚡ Cached markets', '');
+  console.warn('[Markets] All sources failed — static fallback active');
+}
+
+/* ── Auto-refresh every 60 seconds (flicker + re-fetch) ── */
+setInterval(() => {
+  document.querySelectorAll('.m-price').forEach(el => {
+    el.style.transition = 'opacity .3s';
+    el.style.opacity = '.4';
+    setTimeout(() => el.style.opacity = '1', 350);
+  });
+  fetchMarkets();
+}, 60000);
+
+/* ══════════════════════════════════════════
+   TICKER — syncs with live market data
+══════════════════════════════════════════ */
+const TICKER_EXTRA = [
+  { sym:'DXY',  val:'104.2',  pct:'-0.18%', up:false },
+  { sym:'VIX',  val:'14.3',   pct:'+2.10%', up:false },
+  { sym:'10Y',  val:'4.32%',  pct:'-0.04',  up:false },
+  { sym:'EUR',  val:'1.0842', pct:'+0.12%', up:true  },
+  { sym:'GBP',  val:'1.2744', pct:'+0.08%', up:true  },
+  { sym:'JPY',  val:'149.20', pct:'-0.22%', up:false },
+];
+
+function buildTicker(liveData) {
+  // Merge live market data into ticker items
+  const liveItems = (liveData || []).map(m => ({
+    sym: m.sym, val: m.price, pct: m.pct, up: m.dir === 'up',
+  }));
+  const items = [...liveItems, ...TICKER_EXTRA];
+  const html = items.map(t => `
+    <span class="ticker-item">
+      <span class="t-sym">${t.sym}</span>
+      <span class="t-val">${t.val}</span>
+      <span class="${t.up ? 't-up' : 't-dn'}">${t.pct}</span>
+    </span><span class="ticker-sep">|</span>`).join('');
+  const track = document.getElementById('ticker-track');
+  track.innerHTML = html + html; // duplicate for seamless CSS loop
+}
+
+/* Called by renderMarkets() after each successful fetch */
+function updateTickerLive(data) { buildTicker(data); }
+
+/* ══════════════════════════════════════════
+   WEATHER — OpenWeatherMap
+══════════════════════════════════════════ */
+const W_ICONS = {
+  '01d':'☀️','01n':'🌙','02d':'⛅','02n':'⛅','03d':'☁️','03n':'☁️',
+  '04d':'☁️','04n':'☁️','09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌧',
+  '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️','50d':'🌫','50n':'🌫',
+};
+
+async function loadWeather(lat, lon, city) {
+  document.getElementById('w-city-name').textContent = city;
+  try {
+    const [curR, fcR] = await Promise.all([
+      fetchT(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${CONFIG.OWM_KEY}`, 7000),
+      fetchT(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&cnt=40&appid=${CONFIG.OWM_KEY}`, 7000),
+    ]);
+    if (!curR.ok) throw new Error('OWM ' + curR.status);
+    const cur = await curR.json();
+    const fc  = await fcR.json();
+
+    // Get one forecast per day (next 4 distinct days)
+    const seen = new Set();
+    const days = [];
+    for (const item of fc.list) {
+      const d = new Date(item.dt * 1000);
+      const dayKey = d.toDateString();
+      if (!seen.has(dayKey) && d.getDate() !== now.getDate()) {
+        seen.add(dayKey);
+        days.push({
+          day:  d.toLocaleDateString('en-US', { weekday:'short' }),
+          icon: item.weather[0].icon,
+          hi:   Math.round(item.main.temp_max),
+          lo:   Math.round(item.main.temp_min),
+        });
+        if (days.length === 4) break;
+      }
+    }
+
+    renderWeather({
+      temp:   Math.round(cur.main.temp),
+      feels:  Math.round(cur.main.feels_like),
+      desc:   cur.weather[0].description,
+      icon:   cur.weather[0].icon,
+      hum:    cur.main.humidity,
+      wind:   Math.round(cur.wind.speed * 3.6),
+      vis:    cur.visibility ? (cur.visibility / 1000).toFixed(1) + ' km' : 'N/A',
+      days,
+    });
+  } catch(e) {
+    console.warn('[Weather]', e.message);
+    renderWeatherFallback(city);
+  }
+}
+
+function renderWeather(w) {
+  document.getElementById('w-icon').textContent    = W_ICONS[w.icon] || '🌡';
+  document.getElementById('w-temp').innerHTML      = `${w.temp}<sup>°C</sup>`;
+  document.getElementById('w-desc').textContent    = w.desc.charAt(0).toUpperCase() + w.desc.slice(1);
+  document.getElementById('w-hum').textContent     = `${w.hum}%`;
+  document.getElementById('w-wind').textContent    = `${w.wind} km/h`;
+  document.getElementById('w-feels').textContent   = `${w.feels}°C`;
+  document.getElementById('w-vis').textContent     = w.vis;
+  document.getElementById('w-forecast').innerHTML  = (w.days || []).map(d => `
+    <div class="fc-day">
+      <div class="fd-day">${d.day}</div>
+      <div class="fd-icon">${W_ICONS[d.icon]||'🌡'}</div>
+      <div class="fd-hi">${d.hi}°</div>
+      <div class="fd-lo">${d.lo}°</div>
+    </div>`).join('');
+}
+
+function renderWeatherFallback(city) {
+  renderWeather({
+    temp:28, feels:30, desc:'Partly Cloudy', icon:'02d',
+    hum:72, wind:14, vis:'10 km',
+    days:[
+      {day:'Thu',icon:'02d',hi:29,lo:22},
+      {day:'Fri',icon:'10d',hi:25,lo:20},
+      {day:'Sat',icon:'01d',hi:31,lo:23},
+      {day:'Sun',icon:'01d',hi:33,lo:24},
+    ],
+  });
+}
+
+/* ── Geolocation → weather ── */
+function initWeather() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude: lat, longitude: lon } = pos.coords;
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`, {
+          headers: { 'Accept-Language': 'en' },
+        })
+          .then(r => r.json())
+          .then(d => {
+            const city = d.address.city || d.address.town || d.address.village || d.address.county || 'Your City';
+            const country = d.address.country_code?.toUpperCase() || '';
+            loadWeather(lat, lon, `${city}${country ? ', '+country : ''}`);
+          })
+          .catch(() => loadWeather(lat, lon, 'Your Location'));
+      },
+      () => loadWeather(7.3776, 3.9470, 'Ibadan, Nigeria')
+    );
+  } else {
+    loadWeather(7.3776, 3.9470, 'Ibadan, Nigeria');
+  }
+}
+
+/* ══════════════════════════════════════════
+   NEWSLETTER
+══════════════════════════════════════════ */
+function handleSubscribe() {
+  const emailEl = document.getElementById('nl-email');
+  const email   = emailEl.value.trim();
+  const valid   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!valid) {
+    emailEl.style.borderColor = '#c0392b';
+    emailEl.focus();
+    setTimeout(() => emailEl.style.borderColor = '', 1400);
+    return;
+  }
+  document.getElementById('nl-form-wrap').style.display = 'none';
+  document.getElementById('nl-success').style.display   = 'block';
+  // ↓ POST to your Beehiiv / Substack / Mailchimp endpoint here
+  console.log('[Famanova] New subscriber:', email);
+  // Example for Beehiiv:
+  // fetch('https://api.beehiiv.com/v2/publications/YOUR_PUB_ID/subscriptions', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type':'application/json', 'Authorization':'Bearer YOUR_BEEHIIV_KEY' },
+  //   body: JSON.stringify({ email, reactivate_existing: false, send_welcome_email: true }),
+  // });
+}
+document.getElementById('nl-email').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleSubscribe();
+});
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+buildTicker(null);   // seed ticker with static extras while markets load
+fetchMarkets();      // live market waterfall (Yahoo → Finnhub → Twelve Data)
+initWeather();
+fetchNews();
+
+/* ── Intersection Observer: lazy-animate story cards ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+}, { threshold: 0.1 });
+document.querySelectorAll('.story-card, .story-lead').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+
+/* ══════════════════════════════════════════
+   MODALS — About / Advertise / Privacy
+══════════════════════════════════════════ */
+function openModal(id) {
+  document.getElementById('modal-' + id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById('modal-' + id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e, id) {
+  if (e.target === document.getElementById('modal-' + id)) closeModal(id);
+}
+// Close any open modal on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    ['about','advertise','privacy'].forEach(id => closeModal(id));
+  }
+});
+// Set privacy policy date dynamically
+const pdEl = document.getElementById('privacy-date');
+if (pdEl) pdEl.textContent = now.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+
+/* ══════════════════════════════════════════
+   LANGUAGE TRANSLATION — Google Translate
+══════════════════════════════════════════ */
+function translatePage(lang) {
+  if (lang === 'en') {
+    // Restore original — reload without cookie
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname;
+    location.reload();
+    return;
+  }
+  // Set Google Translate cookie and reload
+  const cookieVal = '/en/' + lang;
+  document.cookie = 'googtrans=' + cookieVal + '; path=/';
+  document.cookie = 'googtrans=' + cookieVal + '; path=/; domain=' + location.hostname;
+  location.reload();
+}
+
+// Restore dropdown to match current translation on reload
+(function restoreLangSelect() {
+  const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+  if (match) {
+    const sel = document.getElementById('lang-select');
+    if (sel) {
+      const lang = decodeURIComponent(match[1]);
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === lang) { sel.selectedIndex = i; break; }
+      }
+    }
+  }
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "famanova",
+  "version": "1.0.0",
+  "description": "Famanova — All you need to know today, in one scroll.",
+  "main": "Index.html",
+  "scripts": {
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": [
+    "daily news brief",
+    "AI news summary",
+    "morning news",
+    "market snapshot",
+    "famanova"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^1.0.12"
+  }
+}

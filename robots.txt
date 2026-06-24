@@ -1,0 +1,31 @@
+# ═══════════════════════════════════════════
+# FAMANOVA.COM — robots.txt
+# Instructs all search engine crawlers
+# ═══════════════════════════════════════════
+
+# Allow all well-behaved crawlers
+User-agent: *
+Allow: /
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# Sitemap location
+Sitemap: https://famanova.com/sitemap.xml
